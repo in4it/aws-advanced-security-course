@@ -21,6 +21,14 @@ aws ec2 create-subnet --availability-zone eu-west-1b --cidr-block 10.0.5.0/24 --
 aws ec2 create-subnet --availability-zone eu-west-1c --cidr-block 10.0.6.0/24 --vpc-id VpcId --region eu-west-1
 ```
 
+### Enable auto-assign public IPs
+
+```
+aws ec2 modify-subnet-attribute --subnet-id SubnetId1 --map-public-ip-on-launch --region eu-west-1
+aws ec2 modify-subnet-attribute --subnet-id SubnetId2 --map-public-ip-on-launch --region eu-west-1
+aws ec2 modify-subnet-attribute --subnet-id SubnetId3 --map-public-ip-on-launch --region eu-west-1
+```
+
 ### Route table for public subnets
 The first command outputs the RouteTableId (starts with rtb-)
 
@@ -43,4 +51,76 @@ aws ec2 create-route --destination-cidr-block 0.0.0.0/0 --gateway-id InternetGat
 
 ## EC2 instance
 
+## Setup SSH keypair
+### Create SSH keypair
 
+```
+aws ec2 create-key-pair --key-name MyTrainingKeyPair --query 'KeyMaterial' --region eu-west-1 --output text > MyTrainingKeyPair.pem
+```
+
+### Limit local access to the key
+
+```
+chmod 600 MyTrainingKeyPair.pem
+```
+
+### Check if key is created correctly
+
+```
+aws ec2 describe-key-pairs --key-name MyTrainingKeyPair --region eu-west-1
+```
+
+## Setup Security Groups
+
+### Creating a Security Group
+
+```
+aws ec2 create-security-group --group-name bastion-sg --description "bastion security group" --region eu-west-1 --vpc-id VpcId
+```
+
+### Check Security Group
+The previous command outputs the GroupId (starts with sg-)
+
+```
+aws ec2 describe-security-groups --region eu-west-1 --group-ids GroupId
+```
+
+### Check your ip
+
+```
+curl https://checkip.amazonaws.com
+```
+
+### Update security group to allow ingress SSH from your IP
+
+```
+aws ec2 authorize-security-group-ingress --group-id GroupId --protocol tcp --port 22 --region eu-west-1 --cidr YourIp
+```
+
+### Check Security Group updates
+The previous command outputs the GroupId (starts with sg-)
+
+```
+aws ec2 describe-security-groups  --region eu-west-1 --group-ids GroupId
+```
+
+### Query for ami-id and subnet id
+
+```
+aws ec2 describe-images --owners 099720109477 --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*" --query 'sort_by(Images,&CreationDate)[-1].ImageId' --region eu-west-1
+```
+```
+aws ec2 describe-subnets --region eu-west-1 --filters "Name=cidr-block,Values=10.0.1.0/24" --query 'Subnets[*].{SubnetId:SubnetId}'
+```
+
+### Launch Bastion(EC2)
+The previous commands output the amiId (starts with ami-) and the SubnetId (starts with subnet-)
+
+```
+aws ec2 run-instances --image-id amiId --count 1 --instance-type t2.micro --key-name MyTrainingKeyPair --security-group-ids GroupId --subnet-id GroupId
+```
+
+
+# Cleanup
+
+aws ec2 delete-key-pair --key-name MyTrainingKeyPair
