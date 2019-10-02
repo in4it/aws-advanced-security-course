@@ -122,5 +122,6 @@ aws ec2 run-instances --image-id amiId --count 1 --instance-type t2.micro --key-
 
 
 # Cleanup
-
+```
 aws ec2 delete-key-pair --key-name MyTrainingKeyPair
+```
