@@ -6,7 +6,9 @@
 aws ec2 describe-images --owners 099720109477 --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*" --query 'sort_by(Images,&CreationDate)[-1].ImageId'
 aws ec2 describe-vpcs --filters "Name=cidr-block,Values=10.0.0.0/16" --query 'Vpcs[*].{VpcId:VpcId}'
 aws ec2 describe-subnets --filters "Name=cidr-block,Values=10.0.4.0/24" --query 'Subnets[*].{SubnetId:SubnetId}'
-aws ec2 create-security-group --group-name insternal-instance-sg --description "internal instance security group" --vpc-id VpcId
+aws ec2 create-security-group --group-name internal-instance-sg --description "internal instance security group" --vpc-id VpcId
+aws ec2 describe-security-groups --filters "Name=group-name,Values=bastion-sg" --query "SecurityGroups[*].{GroupId:GroupId}"
+aws ec2 authorize-security-group-ingress --group-ids internalInstanceSGId --protocol tcp --port 22 --source-group BastionSGId
 aws ec2 run-instances --image-id amiId --count 1 --instance-type t2.micro --key-name MyTrainingKeyPair --security-group-ids GroupId --subnet-id SubnetId4
 
 ```
@@ -15,7 +17,7 @@ aws ec2 run-instances --image-id amiId --count 1 --instance-type t2.micro --key-
 The first command gives you an eip allocation id (starts with eipalloc-)
 ```
 aws ec2 allocate-address --domain vpc
-aws ec2 create-nat-gateway --allocation-id eipAllocId --subnet-id SubnetId4
+aws ec2 create-nat-gateway --allocation-id eipAllocId --subnet-id SubnetId1
 aws ec2 describe-route-tables --filters "Name=route.destination-cidr-block,Values=10.0.0.0/16" --filter "Name=association.main,Values=true"
 aws ec2 create-route --destination-cidr-block 0.0.0.0/0 --route-table-id RouteTableId --nat-gateway-id VpcNatId
 
