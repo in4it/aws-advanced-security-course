@@ -4,10 +4,11 @@
 
 ### Create VPC
 
-The following command outputs the VpcId (starts with vpc-)
+The first command outputs the VpcId (starts with vpc-)
 
 ```
 aws ec2 create-vpc --cidr-block 10.0.0.0/16
+aws ec2 modify-vpc-attribute --enable-dns-hostnames --vpc-id VpcId
 ```
 
 ### VPC subnets
