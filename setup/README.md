@@ -115,12 +115,19 @@ aws ec2 describe-subnets --filters "Name=cidr-block,Values=10.0.1.0/24" --query 
 ```
 
 ### Launch Bastion(EC2)
-The previous commands output the amiId (starts with ami-) and the SubnetId (starts with subnet-)
+The previous commands outputs the amiId (starts with ami-) and the SubnetId (starts with subnet-)
 
 ```
 aws ec2 run-instances --image-id amiId --count 1 --instance-type t2.micro --key-name MyTrainingKeyPair --security-group-ids GroupId --subnet-id GroupId
 ```
 
+### Tag Bastion(EC2)
+
+The previous command outputs the InstanceId (starts with i-)
+
+```
+aws ec2 create-tags --resources instanceID --tags 'Key="name",Value=bastion'
+```
 
 # Cleanup
 ```
