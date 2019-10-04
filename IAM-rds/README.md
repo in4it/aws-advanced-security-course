@@ -1,5 +1,11 @@
 # IAM Database Authentication
 
+### VPC db subnets
+
+```
+aws rds create-db-subnet-group --db-subnet-group-name myDatabaseSubnetgroup --db-subnet-group-description "private subnetgroup for RDS instance" --subnet-ids subnet-05c2386fa47f835d6 subnet-0b8c78a755ff93c59
+```
+
 ### Create Security group
 
 ```
@@ -11,11 +17,12 @@ The previous command outputs the GroupId (starts with sg-)
 
 ```
 aws rds create-db-instance \
-    --db-instance-identifier training-rds-mysql2 \
+    --db-instance-identifier training-rds-mysql \
     --db-instance-class db.t2.micro \
     --engine MySQL \
     --allocated-storage 20 \
-    --vpc-security-group-ids sg-00099e0b1bcf7bd06 \
+    --vpc-security-group-ids GroupId \
+    --db-subnet-group-name myDatabaseSubnetgroup \
     --master-username masterawsuser \
     --master-user-password USESECUREPASSWORD \
     --enable-iam-database-authentication 
