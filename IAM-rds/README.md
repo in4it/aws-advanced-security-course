@@ -3,7 +3,7 @@
 ### VPC db subnets
 
 ```
-aws rds create-db-subnet-group --db-subnet-group-name myDatabaseSubnetgroup --db-subnet-group-description "private subnetgroup for RDS instance" --subnet-ids subnet-05c2386fa47f835d6 subnet-0b8c78a755ff93c59
+aws rds create-db-subnet-group --db-subnet-group-name myDatabaseSubnetgroup --db-subnet-group-description "private subnetgroup for RDS instance" --subnet-ids SubnetId4 SubnetId5
 ```
 
 ### Create Security group
