@@ -105,6 +105,19 @@ The previous command outputs the GroupId (starts with sg-)
 aws ec2 describe-security-groups  --group-ids GroupId
 ```
 
+### Create role for instance profile for Bastion(EC2)
+
+```
+aws iam create-role --role-name bastion-role --assume-role-policy-document file://role-policy.json
+```
+
+### Create instance profile for Bastion(EC2)
+
+```
+aws iam create-instance-profile --instance-profile-name bastion
+aws iam add-role-to-instance-profile --instance-profile-name bastion --role-name bastion-role
+```
+
 ### Query for ami-id and subnet id
 
 ```
@@ -118,7 +131,7 @@ aws ec2 describe-subnets --filters "Name=cidr-block,Values=10.0.1.0/24" --query 
 The previous commands outputs the amiId (starts with ami-) and the SubnetId (starts with subnet-)
 
 ```
-aws ec2 run-instances --image-id amiId --count 1 --instance-type t2.micro --key-name MyTrainingKeyPair --security-group-ids GroupId --subnet-id GroupId
+aws ec2 run-instances --iam-instance-profile Name=bastion --image-id amiId --count 1 --instance-type t2.micro --key-name MyTrainingKeyPair --security-group-ids GroupId --subnet-id GroupId
 ```
 
 ### Tag Bastion(EC2)
@@ -132,4 +145,5 @@ aws ec2 create-tags --resources instanceID --tags 'Key="name",Value=bastion'
 # Cleanup
 ```
 aws ec2 delete-key-pair --key-name MyTrainingKeyPair
+aws iam remove-role-from-instance-profile --instance-profile-name bastion --role-name rds-db-connect
 ```
