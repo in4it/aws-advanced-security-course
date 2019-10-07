@@ -11,7 +11,10 @@ aws rds create-db-subnet-group --db-subnet-group-name myDatabaseSubnetgroup --db
 ### Create Security group
 
 ```
+aws ec2 describe-vpcs --filters "Name=cidr-block,Values=10.0.0.0/16" --query 'Vpcs[].[VpcId]'
 aws ec2 create-security-group --group-name training-rds-mysql --description "security group for training-rds-mysql" --vpc-id VpcId
+aws ec2 describe-security-groups --filters "Name=group-name,Values=bastion-sg" --query "SecurityGroups[].[GroupId]"
+aws ec2 authorize-security-group-ingress --group-id rdsInstanceSGId --protocol tcp --port 3306 --source-group BastionSGId
 ```
 
 ### Create MySQL RDS
@@ -23,7 +26,7 @@ aws rds create-db-instance \
     --db-instance-class db.t2.micro \
     --engine MySQL \
     --allocated-storage 20 \
-    --vpc-security-group-ids GroupId \
+    --vpc-security-group-ids rdsInstanceSGId \
     --db-subnet-group-name myDatabaseSubnetgroup \
     --master-username masterawsuser \
     --master-user-password USESECUREPASSWORD \
@@ -43,33 +46,44 @@ aws rds modify-db-instance \
 
 The previous command outputs the DbiResourceId (starts with db-)
 
-Get the accountID:
+Get the accountID and DbiResourceId:
 ```
 aws sts get-caller-identity --output text --query 'Account'
+aws rds describe-db-instances --query "DBInstances[*].[DBInstanceIdentifier,DbiResourceId]"
 ```
 
 ```
 aws iam put-role-policy --role-name bastion-role --policy-name rds-db-connect --policy-document file://policy-rds-connect.json
 ```
 
-### Create securtiy group to allow MySQL traffic and attach to RDS
-
-```
-aws ec2 create-security-group --group-name bastion-mysql-sg --description "bastion mysql security group" --vpc-id VpcId
-
-
-```
-
 ### Install mysql-client and postgresql-client on Bastion(EC2)
 
 ```
 sudo apt update
-sudo apt install mysql-client postgresql-client -y
+sudo apt install mysql-client -y
 ```
 
 ### Create MySQL user from Bastion(EC2)
+
+Connect to MySQL
 ```
+curl -o ~/rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+DBHOST="training-rds-mysql.cd2dwqiadpid.us-west-2.rds.amazonaws.com"
+TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username dba_admin)"
+mysql --host=$RDDBHOSTSHOST  \      
+      --port=3306 \
+      --ssl-ca=rds-combined-ca-bundle.pem \
+      --enable-cleartext-plugin 
+      --user=dba_admin \
+      --password=authToken
+
+```
+
+```
+CREATE DATABASE application;
 CREATE USER dba_admin IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
+GRANT ALL PRIVILEGES ON application.* To ‘dba_admin’@‘%';
+FLUSH PRIVILEGES;
 ```
 
 # Cleanup
