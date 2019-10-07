@@ -1,6 +1,6 @@
 # IAM Database Authentication
 
-### VPC db submet group
+### VPC db subnet group
 
 ```
 aws ec2 describe-subnets --filters "Name=cidr-block,Values=10.0.4.0/24" --query 'Subnets[*].{SubnetId:SubnetId}'
@@ -8,7 +8,7 @@ aws ec2 describe-subnets --filters "Name=cidr-block,Values=10.0.5.0/24" --query 
 aws rds create-db-subnet-group --db-subnet-group-name myDatabaseSubnetgroup --db-subnet-group-description "private subnetgroup for RDS instance" --subnet-ids SubnetId4 SubnetId5
 ```
 
-### Create Security group
+### Create security group
 
 ```
 aws ec2 describe-vpcs --filters "Name=cidr-block,Values=10.0.0.0/16" --query 'Vpcs[].[VpcId]'
