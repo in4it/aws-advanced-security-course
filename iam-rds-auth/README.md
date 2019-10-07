@@ -1,6 +1,6 @@
 # IAM Database Authentication
 
-### VPC db subnets
+### VPC db submet group
 
 ```
 aws ec2 describe-subnets --filters "Name=cidr-block,Values=10.0.4.0/24" --query 'Subnets[*].{SubnetId:SubnetId}'
@@ -70,7 +70,7 @@ Connect to MySQL
 curl -o ~/rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 DBHOST="training-rds-mysql.cd2dwqiadpid.us-west-2.rds.amazonaws.com"
 TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username dba_admin)"
-mysql --host=$RDDBHOSTSHOST  \      
+mysql --host=$DBHOST  \      
       --port=3306 \
       --ssl-ca=rds-combined-ca-bundle.pem \
       --enable-cleartext-plugin 
@@ -91,7 +91,7 @@ FLUSH PRIVILEGES;
 ### Remove role
 
 ```
-aws iam delete-role --role-name rds-db-connect
+aws iam delete-role-policy --role-name rds-db-connect --policy-name rds-db-connect
 ```
 
 ### Remove RDS with snapshot
