@@ -96,6 +96,22 @@ mysql --host=$DBHOST \
       --password=$TOKEN
 ```
 
+### Alter user masterawsuser in order to switch from password to IAM
+
+```
+ALTER USER masterawsuser IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
+```
+
+```
+TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username masterawsuser)"
+mysql --host=$DBHOST \
+      --port=3306 \
+      --ssl-ca=rds-combined-ca-bundle.pem \
+      --enable-cleartext-plugin \
+      --user=masterawsuser \
+      --password=$TOKEN
+```
+
 # Cleanup
 
 ### Remove role
