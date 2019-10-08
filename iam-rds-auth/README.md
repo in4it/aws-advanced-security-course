@@ -71,7 +71,7 @@ Connect to MySQL
 DBHOST="training-rds-mysql.cd2dwqiadpid.eu-west-1.rds.amazonaws.com"
 mysql --host=$DBHOST  \      
       --port=3306 \
-      --user=masterawsuser
+      --user=masterawsuser \
       --password
 ```
 
