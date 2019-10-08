@@ -85,7 +85,7 @@ FLUSH PRIVILEGES;
 ### Connect to MySQL using the IAM role
 
 ```
-curl -o ~/rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+curl -o rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 DBHOST="training-rds-mysql.cd2dwqiadpid.eu-west-1.rds.amazonaws.com"
 TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username dba_admin)"
 mysql --host=$DBHOST  \      
