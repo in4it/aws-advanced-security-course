@@ -1,0 +1,18 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+     {
+       "Principal": "*",
+       "Action": "s3:*",
+       "Effect": "Deny",
+       "Resource": ["arn:aws:s3:::s3trainingbucket",
+                    "arn:aws:s3:::s3trainingbucket/*"
+                    ],
+       "Condition": {
+         "StringNotEquals": {
+           "aws:sourceVpce": "vpce-1a2b3c4d"
+         }
+       }
+     }
+   ]
+}
