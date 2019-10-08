@@ -67,16 +67,10 @@ sudo apt install mysql-client -y
 
 Connect to MySQL
 ```
-curl -o ~/rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
-DBHOST="training-rds-mysql.cd2dwqiadpid.us-west-2.rds.amazonaws.com"
-TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username dba_admin)"
+DBHOST="training-rds-mysql.cd2dwqiadpid.eu-west-1.rds.amazonaws.com"
 mysql --host=$DBHOST  \      
       --port=3306 \
-      --ssl-ca=rds-combined-ca-bundle.pem \
-      --enable-cleartext-plugin 
-      --user=dba_admin \
-      --password=authToken
-
+      --user=dba_admin
 ```
 
 ```
@@ -86,12 +80,26 @@ GRANT ALL PRIVILEGES ON application.* To ‘dba_admin’@‘%';
 FLUSH PRIVILEGES;
 ```
 
+### Connect to MySQL using the IAM role
+
+```
+curl -o ~/rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+DBHOST="training-rds-mysql.cd2dwqiadpid.eu-west-1.rds.amazonaws.com"
+TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username dba_admin)"
+mysql --host=$DBHOST  \      
+      --port=3306 \
+      --ssl-ca=rds-combined-ca-bundle.pem \
+      --enable-cleartext-plugin 
+      --user=dba_admin \
+      --password=$TOKEN
+```
+
 # Cleanup
 
 ### Remove role
 
 ```
-aws iam delete-role-policy --role-name rds-db-connect --policy-name rds-db-connect
+aws iam delete-role-policy --role-name bastion-role --policy-name rds-db-connect
 ```
 
 ### Remove RDS with snapshot
