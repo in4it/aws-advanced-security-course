@@ -66,6 +66,7 @@ sudo apt install mysql-client -y
 ### Create MySQL user from Bastion(EC2)
 
 Connect to MySQL
+
 ```
 DBHOST="training-rds-mysql.cd2dwqiadpid.eu-west-1.rds.amazonaws.com"
 mysql --host=$DBHOST  \      
@@ -76,7 +77,7 @@ mysql --host=$DBHOST  \
 ```
 CREATE DATABASE application;
 CREATE USER dba_admin IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
-GRANT ALL PRIVILEGES ON application.* To ‘dba_admin’@‘%';
+GRANT ALL PRIVILEGES ON application.* To ‘dba_admin’@‘10.0.%';
 FLUSH PRIVILEGES;
 ```
 
