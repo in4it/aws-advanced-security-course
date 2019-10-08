@@ -8,8 +8,6 @@ aws ec2 describe-route-tables --filters "Name=vpc-id,Values=VpcId"
 aws ec2 create-vpc-endpoint --vpc-id VpcId --vpc-endpoint-type Gateway --service-name com.amazonaws.eu-west-1.s3 --route-table-ids routeTableId
 ```
 
-
-
 ### Create bucket
 
 ```
