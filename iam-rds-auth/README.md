@@ -78,7 +78,7 @@ mysql --host=$DBHOST  \
 ```
 CREATE DATABASE application;
 CREATE USER dba_admin IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
-GRANT ALL PRIVILEGES ON application.* To ‘dba_admin’@‘10.0.0.0/255.255.0.0';
+GRANT ALL PRIVILEGES ON application.* TO 'dba_admin'@'10.0.0.0/255.255.0.0';
 FLUSH PRIVILEGES;
 ```
 
