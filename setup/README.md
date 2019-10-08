@@ -118,6 +118,24 @@ aws iam create-instance-profile --instance-profile-name bastion
 aws iam add-role-to-instance-profile --instance-profile-name bastion --role-name bastion-role
 ```
 
+### Test ssh
+
+```
+ssh -i MyTrainingKeyPair.pem ubuntu@publicIpBastion
+```
+
+### Install and configure aws cli
+
+```
+sudo apt update
+sudo apt install awscli -y
+```
+
+Set only the default region
+```
+aws configure
+```
+
 ### Query for ami-id and subnet id
 
 ```
