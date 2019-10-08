@@ -77,8 +77,8 @@ mysql --host=$DBHOST  \
 
 ```
 CREATE DATABASE application;
-CREATE USER db_admin IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
-GRANT ALL PRIVILEGES ON application.* TO 'db_admin'@'10.0.0.0/255.255.0.0';
+CREATE USER traininguser IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
+GRANT ALL PRIVILEGES ON application.* TO 'traininguser'@'%';
 FLUSH PRIVILEGES;
 ```
 
@@ -87,12 +87,12 @@ FLUSH PRIVILEGES;
 ```
 curl -o rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 DBHOST="training-rds-mysql.cd2dwqiadpid.eu-west-1.rds.amazonaws.com"
-TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username db_admin)"
-mysql --host=$DBHOST  \      
+TOKEN="$(aws rds generate-db-auth-token --hostname $DBHOST --port 3306 --username traininguser)"
+mysql --host=$DBHOST \
       --port=3306 \
       --ssl-ca=rds-combined-ca-bundle.pem \
       --enable-cleartext-plugin \
-      --user=db_admin \
+      --user=traininguser \
       --password=$TOKEN
 ```
 

@@ -7,7 +7,7 @@
         "rds-db:connect"
       ],
       "Resource": [
-        "arn:aws:rds-db:us-east-2:1234567890:dbuser:db-ABCDEFGHIJKL01234/db_admin"
+        "arn:aws:rds-db:us-east-2:1234567890:dbuser:db-ABCDEFGHIJKL01234/traininguser"
       ]
     }
   ]
