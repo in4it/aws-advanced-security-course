@@ -1,0 +1,9 @@
+set_var EASYRSA_REQ_CN          "domain"
+set_var EASYRSA_REQ_COUNTRY     "US"
+set_var EASYRSA_REQ_PROVINCE    "YOUR STATE"
+set_var EASYRSA_REQ_CITY        "YOUR CITY"
+set_var EASYRSA_REQ_ORG         "YOUR ORG"
+set_var EASYRSA_REQ_EMAIL       "email@address"
+set_var EASYRSA_REQ_OU          "infrastructure"
+set_var EASYRSA_KEY_SIZE        2048
+set_var EASYRSA_BATCH           "yes"
