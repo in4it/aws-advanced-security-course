@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Principal": "*",
+      "Action": "s3:*",
+      "Effect": "Deny",
+      "Resource": ["arn:aws:s3:::s3trainingbucketjornj",
+                   "arn:aws:s3:::s3trainingbucketjornj/*"
+                   ],
+      "Condition": {
+        "StringNotEquals": {
+          "aws:sourceVpc": "VPCENDPOINT"
+        }
+      }
+    }
+  ]
+}

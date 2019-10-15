@@ -128,7 +128,13 @@ ssh -i MyTrainingKeyPair.pem ubuntu@publicIpBastion
 
 ```
 sudo apt update
-sudo apt install awscli -y
+sudo apt install awscli -y #issues on ubuntu 18.04 https://github.com/aws/aws-cli/issues/2403
+```
+
+```
+sudo apt update
+sudo apt install python-pip
+pip install --upgrade --user awscli
 ```
 
 Set only the default region
