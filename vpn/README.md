@@ -32,6 +32,12 @@ docker run -v /etc/openvpn:/etc/openvpn --log-driver=none --rm kylemanna/openvpn
 docker run -v /etc/openvpn:/etc/openvpn -d -p 1194:1194/udp --cap-add=NET_ADMIN --name openvpn kylemanna/openvpn
 ```
 
+## Routing (optional)
+```
+echo 'push "route 10.0.0.0 255.255.0.0"' >> /etc/openvpn/openvpn.conf
+docker restart openvpn
+```
+
 
 ## sync config
 ```
