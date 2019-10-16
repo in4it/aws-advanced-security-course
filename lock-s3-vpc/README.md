@@ -96,6 +96,7 @@ scp -i MyTrainingKeyPair.pem -r awscli-bundle ubuntu@10.0.4.x:/tmp
 
 ```
 cd /tmp
+alias python=python3
 sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 ```
 
