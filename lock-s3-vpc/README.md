@@ -89,7 +89,9 @@ aws s3 ls s3://s3trainingbucketjornj/
 Download file on bastion
 ```
 curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-scp -i ~/.ssh/MyTrainingKeyPair.pem awscli-bundle.zip ubuntu@10.x.x.x:/tmp 
+sudo apt install unzip
+unzip awscli-bundle.zip
+scp -i MyTrainingKeyPair.pem -r awscli-bundle ubuntu@10.0.4.x:/tmp
 ```
 
 ```
