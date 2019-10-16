@@ -26,6 +26,7 @@ aws s3 ls s3://s3trainingbucketjornj/
 ### Bucket policy (Lock on VPC)
 
 ```
+aws ec2 describe-vpcs --filters "Name=cidr-block,Values=10.0.0.0/16" --query 'Vpcs[].[VpcId]'
 aws s3api put-bucket-policy --bucket s3trainingbucketjornj --policy file://policy-s3-lock-vpc.json
 ```
 
@@ -90,6 +91,7 @@ aws ec2 create-vpc-endpoint --vpc-id VpcId --vpc-endpoint-type Gateway --service
 ### Bucket policy (Lock on VPCE)
 
 ```
+aws ec2 describe-vpc-endpoints --query "VpcEndpoints[].[VpcEndpointId]"
 aws s3api put-bucket-policy --bucket s3trainingbucketjornj --policy file://policy-s3-lock-vpce.json
 ```
 
