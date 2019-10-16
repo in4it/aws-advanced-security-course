@@ -36,27 +36,9 @@ aws s3api put-bucket-policy --bucket s3trainingbucketjornj --policy file://polic
 aws iam put-role-policy --role-name bastion-role --policy-name ec2-s3-access --policy-document file://policy-s3-lock-ec2.json
 ```
 
-### Test file upload locally
-
-```
-touch testfilelocally.txt
-aws s3 cp testfilelocally.txt s3://s3trainingbucketjornj/testfilelocally.txt
-aws s3 ls s3://s3trainingbucketjornj/
-```
-
 ### Test file upload from Bastion(EC2)
 
 ```
-touch testfilebastionvpc.txt
-aws s3 cp testfilebastionvpc.txt s3://s3trainingbucketjornj/testfilebastionvpc.txt
-aws s3 ls s3://s3trainingbucketjornj/
-```
-
-### Test file upload from internal-instance(EC2)
-
-```
-touch testfileinternalvpc.txt
-aws s3 cp testfileinternalvpc.txt s3://s3trainingbucketjornj/testfileinternalvpc.txt
 aws s3 ls s3://s3trainingbucketjornj/
 ```
 
@@ -101,6 +83,19 @@ aws s3api put-bucket-policy --bucket s3trainingbucketjornj --policy file://polic
 touch testfilebastion.txt
 aws s3 cp testfilebastion.txt s3://s3trainingbucketjornj/testfilebastion.txt
 aws s3 ls s3://s3trainingbucketjornj/
+```
+
+### Install awscli on internal-instance
+Download file on bastion
+```
+curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+scp -i ~/.ssh/MyTrainingKeyPair.pem awscli-bundle.zip ubuntu@10.x.x.x:/tmp 
+```
+
+```
+cd /tmp
+unzip awscli-bundle.zip
+sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 ```
 
 ### Test file upload from internal-instance(EC2)
