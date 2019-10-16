@@ -116,7 +116,7 @@ aws s3 ls s3://s3trainingbucketjornj/
 ### Remove bucket (from internal instance)
 
 ```
-aws s3api delete-bucket s3trainingbucketjornj
+aws s3api delete-bucket --bucket s3trainingbucketjornj
 ```
 
 ### Remove endpoints (locally)
