@@ -88,16 +88,13 @@ aws s3 ls s3://s3trainingbucketjornj/
 ### Install awscli on internal-instance
 Download file on bastion
 ```
-curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-sudo apt install unzip
-unzip awscli-bundle.zip
-scp -i MyTrainingKeyPair.pem -r awscli-bundle ubuntu@10.0.4.x:/tmp
+curl "http://mirrors.kernel.org/ubuntu/pool/universe/a/awscli/awscli_1.14.44-1ubuntu1_all.deb" -o "awscli_1.14.44-1ubuntu1_all.deb"
+scp -i MyTrainingKeyPair.pem awscli_1.14.44-1ubuntu1_all.deb ubuntu@10.0.4.x:/tmp
 ```
 
+Install on internal instance
 ```
-cd /tmp
-sudo ln -s /usr/bin/python3 /usr/bin/python
-sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+sudo apt install awscli_1.14.44-1ubuntu1_all.deb
 ```
 
 ### Test file upload from internal-instance(EC2)
