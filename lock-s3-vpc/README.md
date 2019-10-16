@@ -59,7 +59,7 @@ aws s3api delete-bucket-policy --bucket s3trainingbucketjornj
 ### Detach iam role to bastion (locally)
 
 ```
-aws iam detach-role-policy --role-name bastion-role--policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+aws iam detach-role-policy --role-name bastion-role --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
 ```
 
 ### S3 endpoint
