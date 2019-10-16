@@ -19,7 +19,7 @@ aws s3api create-bucket --bucket s3trainingbucketjornj --region eu-west-1 --crea
 
 ```
 touch testfilelocallyopen.txt
-aws s3 cp testfilelocallyopen.txt s3://s3trainingbucketjorn/testfilelocallyopen.txt
+aws s3 cp testfilelocallyopen.txt s3://s3trainingbucketjornj/testfilelocallyopen.txt
 aws s3 ls s3://s3trainingbucketjornj/
 ```
 
