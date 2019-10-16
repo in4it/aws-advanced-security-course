@@ -96,7 +96,6 @@ scp -i MyTrainingKeyPair.pem -r awscli-bundle ubuntu@10.0.4.x:/tmp
 
 ```
 cd /tmp
-unzip awscli-bundle.zip
 sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 ```
 
