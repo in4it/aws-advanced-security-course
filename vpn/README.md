@@ -22,7 +22,8 @@ sudo -s
 apt-get update
 apt-get install docker.io -y
 systemctl enable docker
-systemctl start docker docker run -v /etc/openvpn:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_genconfig -u udp://$(hostname -f)
+systemctl start docker
+docker run -v /etc/openvpn:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_genconfig -u udp://$(hostname -f)
 ```
 
 * Fill out the vars file and copy paste into /etc/openvpn/vars, then:
@@ -38,10 +39,13 @@ echo 'push "route 10.0.0.0 255.255.0.0"' >> /etc/openvpn/openvpn.conf
 docker restart openvpn
 ```
 
-
 ## sync config
 ```
 sudo -s # if you're not root yet
 apt install awscli
 aws s3 sync /etc/openvpn s3://openvpn-access-region-accountid/config/
 ```
+
+## VPN Clients
+* https://openvpn.net/client-connect-vpn-for-windows/ (MacOS + Windows)
+* https://tunnelblick.net/downloads.html (recommended for MacOS)
