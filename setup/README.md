@@ -105,6 +105,8 @@ The previous command outputs the GroupId (starts with sg-)
 aws ec2 describe-security-groups  --group-ids GroupId
 ```
 
+## Setup IAM
+
 ### Create role for instance profile for Bastion(EC2)
 
 ```
@@ -114,33 +116,11 @@ aws iam create-role --role-name bastion-role --assume-role-policy-document file:
 ### Create instance profile for Bastion(EC2)
 
 ```
-aws iam create-instance-profile --instance-profile-name bastion
-aws iam add-role-to-instance-profile --instance-profile-name bastion --role-name bastion-role
+aws iam create-instance-profile --instance-profile-name bastion-role
+aws iam add-role-to-instance-profile --instance-profile-name bastion-role --role-name bastion-role
 ```
 
-### Test ssh
-
-```
-ssh -i MyTrainingKeyPair.pem ubuntu@publicIpBastion
-```
-
-### Install and configure aws cli
-
-```
-sudo apt update
-sudo apt install awscli -y #issues on ubuntu 18.04 https://github.com/aws/aws-cli/issues/2403
-```
-
-```
-sudo apt update
-sudo apt install python-pip
-pip install --upgrade --user awscli
-```
-
-Set only the default region
-```
-aws configure
-```
+## Setup EC2 instance
 
 ### Query for ami-id and subnet id
 
@@ -155,7 +135,7 @@ aws ec2 describe-subnets --filters "Name=cidr-block,Values=10.0.1.0/24" --query 
 The previous commands outputs the amiId (starts with ami-) and the SubnetId (starts with subnet-)
 
 ```
-aws ec2 run-instances --iam-instance-profile Name=bastion --image-id amiId --count 1 --instance-type t2.micro --key-name MyTrainingKeyPair --security-group-ids GroupId --subnet-id GroupId
+aws ec2 run-instances --iam-instance-profile Name=bastion-role --image-id amiId --count 1 --instance-type t2.micro --key-name MyTrainingKeyPair --security-group-ids GroupId --subnet-id GroupId
 ```
 
 ### Tag Bastion(EC2)
@@ -163,10 +143,24 @@ aws ec2 run-instances --iam-instance-profile Name=bastion --image-id amiId --cou
 The previous command outputs the InstanceId (starts with i-)
 
 ```
-aws ec2 create-tags --resources instanceID --tags 'Key="name",Value=bastion'
+aws ec2 create-tags --resources instanceID --tags 'Key="Name",Value=bastion'
 ```
 
-# Cleanup
+### Test ssh
+
+```
+ssh -i MyTrainingKeyPair.pem ubuntu@publicIpBastion
+```
+
+### Install and configure aws cli
+
+```
+sudo apt update
+sudo apt install python3-pip
+pip install --upgrade --user awscli
+```
+
+# Cleanup to remove all resources after the labs
 ```
 aws ec2 delete-key-pair --key-name MyTrainingKeyPair
 aws iam remove-role-from-instance-profile --instance-profile-name bastion --role-name rds-db-connect
