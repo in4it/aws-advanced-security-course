@@ -1,0 +1,15 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+     {
+       "Action": "dynamodb:*",
+       "Effect": "Deny",
+       "Resource": "arn:aws:dynamodb:eu-west-1:1234567890:table/*",
+       "Condition": {
+                "StringNotEquals": {
+                     "aws:sourceVpce": "vpce-1a2b3c4d"
+                }
+            }
+        }
+    ]
+}
