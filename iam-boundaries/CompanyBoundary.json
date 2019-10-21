@@ -6,9 +6,7 @@
             "Effect": "Allow",
             "Action": [
                 "s3:*",
-                "cloudwatch:*",
-                "ec2:*",
-                "dynamodb:*"
+                "cloudwatch:*"
             ],
             "Resource": "*"
         },
