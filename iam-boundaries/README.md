@@ -4,6 +4,7 @@
 
 ```
 aws iam create-policy --policy-name Company-Boundary --policy-document file://CompanyBoundary.json
+aws sts get-caller-identity --output text --query 'Account'
 aws iam create-policy --policy-name Delegated-User-Boundary --policy-document  file://DelegatedUserBoundary.json
 ```
 
