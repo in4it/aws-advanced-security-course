@@ -1,4 +1,11 @@
-# EC2 instance setup
+# Setup
+
+## AWS Account setup
+
+* AWS CLI installation (Windows): https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html
+* AWS CLI installation (MacOS: https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html
+
+## EC2 instance setup
 
 ## VPC 
 
