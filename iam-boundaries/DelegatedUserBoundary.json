@@ -1,0 +1,74 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "CreateOrChangeOnlyWithBoundary",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateUser",
+                "iam:DeleteUserPolicy",
+                "iam:AttachUserPolicy",
+                "iam:DetachUserPolicy",
+                "iam:PutUserPermissionsBoundary"
+            ],
+            "Resource": "*",
+            "Condition": {"StringEquals": 
+                {"iam:PermissionsBoundary": "arn:aws:iam::AccountId:policy/Company-Boundary"}}
+        },
+        {
+            "Sid": "CloudWatchAndOtherIAMTasks",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:*",
+                "iam:GetUser",
+                "iam:ListUsers",
+                "iam:DeleteUser",
+                "iam:UpdateUser",
+                "iam:CreateAccessKey",
+                "iam:CreateLoginProfile",
+                "iam:GetAccountPasswordPolicy",
+                "iam:GetLoginProfile",
+                "iam:*Group*",
+                "iam:CreatePolicy",
+                "iam:DeletePolicy",
+                "iam:DeletePolicyVersion",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetUserPolicy",
+                "iam:GetRolePolicy",
+                "iam:ListPolicies",
+                "iam:ListPolicyVersions",
+                "iam:ListEntitiesForPolicy",
+                "iam:ListUserPolicies",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListRolePolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:PutUserPolicy",
+                "iam:SetDefaultPolicyVersion",
+                "iam:SimulatePrincipalPolicy",
+                "iam:SimulateCustomPolicy" 
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "NoBoundaryPolicyEdit",
+            "Effect": "Deny",
+            "Action": [
+                "iam:CreatePolicyVersion",
+                "iam:DeletePolicy",
+                "iam:DeletePolicyVersion",
+                "iam:SetDefaultPolicyVersion"
+            ],
+            "Resource": [
+                "arn:aws:iam::AccountId:policy/Company-Boundary",
+                "arn:aws:iam::AccountId:policy/Delegated-User-Boundary"
+            ]
+        },
+        {
+            "Sid": "NoBoundaryUserDelete",
+            "Effect": "Deny",
+            "Action": "iam:DeleteUserPermissionsBoundary",
+            "Resource": "*"
+        }
+    ]
+}
