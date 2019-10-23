@@ -1,0 +1,13 @@
+[
+  {
+    "Action": "INSERT",
+    "ActivatedRule": {
+        "Priority": 1,
+        "RuleId": "6d0d3630-1b68-414e-bb58-7d304b27fdfb",
+        "Action": {
+            "Type": "BLOCK"
+        },
+        "Type": "REGULAR"
+    }
+}
+]

@@ -30,7 +30,7 @@ aws iam create-saml-provider --saml-metadata-document file://downloadedMetadataF
 ```
 
 
-### Create iam rol
+### Create iam role
 
 ```
 aws sts get-caller-identity --output text --query 'Account'
