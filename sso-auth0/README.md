@@ -43,7 +43,7 @@ aws iam attach-role-policy --role-name internal-instance --policy-arn arn:aws:ia
 ```
 function (user, context, callback) {
   if(context.clientID === "8SERXtt0QXhMXz2wFMtY8BQevQgpKxQH") {
-    user.awsRole = 'arn:aws:iam::AccountId:role/admin-auth0,arn:aws:iam::AccountId:saml-provider/auth0SamlProvider';
+    user.awsRole = 'arn:aws:iam::AccountId:role/admin-auth0,arn:aws:iam::AccountId:saml-provider/auth0samlprovider';
     user.awsRoleSession = user.email;
 
     context.samlConfiguration.mappings = {
