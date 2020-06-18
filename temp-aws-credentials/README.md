@@ -11,6 +11,11 @@ http://localhost:12200/saml
 ```
 
 ### Create files
+Gather the required information to update the according files:
+```
+saml-login aws-assume-role --show
+```
+
 ```
 ~/.saml-login
 [DEFAULT]
@@ -22,11 +27,6 @@ client_id = your-newly-added-client-id
 ~/.aws-accounts
 [DEFAULT]
 aws-account-alias = aws-account-number
-```
-
-Test if all the configurations made are correct with the following command:
-```
-saml-login aws-assume-role --show
 ```
 
 ### Obtain AWS access keys
