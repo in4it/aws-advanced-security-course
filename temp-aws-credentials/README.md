@@ -12,10 +12,6 @@ http://localhost:12200/saml
 
 ### Create files
 ```
-saml-login aws-assume-role --show
-```
-
-```
 ~/.saml-login
 [DEFAULT]
 idp_url = https://auth0-tenant.eu.auth0.com
@@ -28,13 +24,18 @@ client_id = your-newly-added-client-id
 aws-account-alias = aws-account-number
 ```
 
+Test if all the configurations made are correct with the following command:
+```
+saml-login aws-assume-role --show
+```
+
 ### Obtain AWS access keys
 
 ```
-saml-login -c OAuthAdministrator@aws-alias aws-assume-role
+saml-login -c aws-role@aws-alias aws-assume-role
 ```
 
 ### Access the AWS console
 ```
-aws-console --profile OAuthAdministrator@aws-alias 
+aws-console --profile aws-role@aws-alias 
 ```
