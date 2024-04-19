@@ -38,20 +38,13 @@ aws iam create-role --role-name admin-auth0 --assume-role-policy-document file:/
 aws iam attach-role-policy --role-name internal-instance --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
 ```
 
-### Create Auth0 rule
+### Create Auth0 action
 
 ```
-function (user, context, callback) {
+exports.onExecutePostLogin = async (event, api) => {
   if(context.clientID === "8SERXtt0QXhMXz2wFMtY8BQevQgpKxQH") {
-    user.awsRole = 'arn:aws:iam::AccountId:role/admin-auth0,arn:aws:iam::AccountId:saml-provider/auth0samlprovider';
-    user.awsRoleSession = user.email;
-
-    context.samlConfiguration.mappings = {
-      'https://aws.amazon.com/SAML/Attributes/Role': 'awsRole',
-      'https://aws.amazon.com/SAML/Attributes/RoleSessionName': 'awsRoleSession'
-    };
+    api.samlResponse.setAttribute('https://aws.amazon.com/SAML/Attributes/Role', 'arn:aws:iam::AccountId:role/admin-auth0,arn:aws:iam::AccountId:saml-provider/auth0samlprovider')
+    api.samlResponse.setAttribute('https://aws.amazon.com/SAML/Attributes/RoleSessionName', event.user.email)
   }
-  callback(null, user, context);
-
 }
 ```
